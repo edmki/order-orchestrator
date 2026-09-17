@@ -1,3 +1,4 @@
+import type { OrderCustomer, OrderItem } from 'src/domain/entities/order';
 import { OrderStatus } from 'src/domain/enums/order-status';
 import {
   Column,
@@ -21,10 +22,10 @@ export class OrderSchema {
   idempotencyKey: string;
 
   @Column({ type: 'jsonb' })
-  customer: Record<string, unknown>;
+  customer: OrderCustomer;
 
   @Column({ type: 'jsonb' })
-  items: Record<string, unknown>;
+  items: OrderItem[];
 
   @Column({ length: 3 })
   currency: string;
@@ -36,7 +37,7 @@ export class OrderSchema {
     type: 'jsonb',
     nullable: true,
   })
-  enrichmentData: Record<string, unknown> | null;
+  enrichmentData: Record<string, any> | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
