@@ -2,6 +2,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Env } from 'src/shared/env';
 import { OrderSchema } from './schemas/order.schema';
 import { Module } from '@nestjs/common';
+import { PostgreSqlOrderRepository } from './repositories/postgresql-order-repository';
+import { OrderRepository } from 'src/domain/repositories/order-repository';
 
 @Module({
   imports: [
@@ -15,7 +17,12 @@ import { Module } from '@nestjs/common';
     }),
     TypeOrmModule.forFeature([OrderSchema]),
   ],
-  providers: [],
-  exports: [],
+  providers: [
+    {
+      provide: OrderRepository,
+      useClass: PostgreSqlOrderRepository,
+    },
+  ],
+  exports: [OrderRepository],
 })
 export class DatabaseModule {}
