@@ -13,7 +13,12 @@ export class PostgreSqlOrderRepository implements OrderRepository {
   ) {}
 
   async create(order: Order): Promise<void> {
-    const orderSchema = this.orderRepository.create(order);
-    await this.orderRepository.save(orderSchema);
+    await this.orderRepository
+      .createQueryBuilder()
+      .insert()
+      .into(OrderSchema)
+      .values(order)
+      .orIgnore()
+      .execute();
   }
 }

@@ -19,7 +19,7 @@ export interface Order {
   items: OrderItem[];
   currency: string;
   status: OrderStatus;
-  enrichmentData?: Record<string, unknown> | null;
+  enrichmentData?: Record<string, any> | null;
   createdAt: Date;
   updatedAt: Date;
 }
