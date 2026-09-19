@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { OrderCustomer, OrderItem } from 'src/domain/entities/order';
 import { OrderStatus } from 'src/domain/enums/order-status';
 import { OrderRepository } from 'src/domain/repositories/order-repository';
+import { QueueService } from 'src/infra/queue/queue.service';
 import { v4 as uuid } from 'uuid';
 
 export interface CreateOrderParams {
@@ -14,7 +15,10 @@ export interface CreateOrderParams {
 
 @Injectable()
 export class CreateOrder {
-  constructor(private readonly orderRepository: OrderRepository) {}
+  constructor(
+    private readonly orderRepository: OrderRepository,
+    private readonly queueService: QueueService,
+  ) {}
 
   async execute(order: CreateOrderParams): Promise<void> {
     await this.orderRepository.create({
