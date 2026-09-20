@@ -17,6 +17,14 @@ export class Env {
     return Number(Env.get('REDIS_PORT', '6379'));
   }
 
+  static get exchangeRateApiUrl(): string {
+    return Env.get('EXCHANGE_RATE_API_URL', 'https://api.frankfurter.dev/v1');
+  }
+
+  static get targetExchangeRateCurrency(): string {
+    return Env.get('TARGET_EXCHANGE_RATE_CURRENCY', 'BRL');
+  }
+
   private static get(key: string, fallback?: string): string {
     const value = process.env[key] ?? fallback;
     if (!value) {

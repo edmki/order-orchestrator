@@ -21,7 +21,7 @@ export class CreateOrder {
   ) {}
 
   async execute(order: CreateOrderParams): Promise<void> {
-    await this.orderRepository.create({
+    const createdOrder = await this.orderRepository.create({
       id: uuid(),
       orderId: order.orderId,
       idempotencyKey: order.idempotencyKey,
@@ -32,5 +32,9 @@ export class CreateOrder {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
+
+    if (createdOrder) {
+      await this.queueService.addOrder(createdOrder.id);
+    }
   }
 }
