@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { OrderStatus } from 'src/domain/enums/order-status';
 import { OrderRepository } from 'src/domain/repositories/order-repository';
 import { ExchangeRateService } from 'src/domain/services/exchange-rate.service';
+import { Env } from 'src/shared/env';
 
 @Injectable()
 export class ProcessOrder {
@@ -24,7 +25,11 @@ export class ProcessOrder {
     );
 
     await this.orderRepository.complete(order.id, {
-      exchangeRate,
+      exchangeRate: {
+        from: order.currency,
+        to: Env.targetExchangeRateCurrency,
+        rate: exchangeRate,
+      },
     });
   }
 }
