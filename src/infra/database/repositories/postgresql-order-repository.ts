@@ -28,8 +28,10 @@ export class PostgreSqlOrderRepository implements OrderRepository {
     return createdOrder ?? null;
   }
 
-  async list(): Promise<Order[]> {
-    const orders = await this.orderRepository.find();
+  async list(status?: OrderStatus): Promise<Order[]> {
+    const orders = await this.orderRepository.find({
+      where: status ? { status } : {},
+    });
     return orders;
   }
 
@@ -54,6 +56,15 @@ export class PostgreSqlOrderRepository implements OrderRepository {
       {
         status: OrderStatus.COMPLETED,
         enrichmentData,
+      },
+    );
+  }
+
+  async markEnrichmentAsFailed(id: string): Promise<void> {
+    await this.orderRepository.update(
+      { id },
+      {
+        status: OrderStatus.FAILED_ENRICHMENT,
       },
     );
   }
