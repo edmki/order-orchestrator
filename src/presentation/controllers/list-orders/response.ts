@@ -47,7 +47,7 @@ class ItemResponse {
   unitPrice: number;
 }
 
-export class GetOrderByIdResponse {
+export class ListOrdersResponse {
   @ApiProperty({
     description: 'Database ID',
     example: 'ab12cd34-56ef-78gh-90ij-klmnopqrstuv',
