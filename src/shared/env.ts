@@ -17,6 +17,14 @@ export class Env {
     return Number(Env.get('REDIS_PORT', '6379'));
   }
 
+  static get queueRetryAttempts(): number {
+    return Number(Env.get('QUEUE_RETRY_ATTEMPTS', '3'));
+  }
+
+  static get queueRetryDelay(): number {
+    return Number(Env.get('QUEUE_RETRY_DELAY', '5000'));
+  }
+
   static get exchangeRateApiUrl(): string {
     return Env.get('EXCHANGE_RATE_API_URL', 'https://api.frankfurter.dev/v1');
   }

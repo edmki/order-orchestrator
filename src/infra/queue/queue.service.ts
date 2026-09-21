@@ -7,6 +7,9 @@ export class QueueService implements OnModuleDestroy {
   constructor(
     @InjectQueue('orders')
     private readonly ordersQueue: Queue,
+
+    @InjectQueue('orders-dlq')
+    private readonly deadLetterQueue: Queue,
   ) {}
 
   async addOrder(orderId: string) {
@@ -15,7 +18,26 @@ export class QueueService implements OnModuleDestroy {
     });
   }
 
+  async addToDeadLetterQueue(orderId: string) {
+    await this.deadLetterQueue.add('orders-dlq', {
+      orderId,
+    });
+  }
+
+  async getMetrics() {
+    const [orders, deadLetter] = await Promise.all([
+      this.ordersQueue.getJobCounts(),
+      this.deadLetterQueue.getJobCounts(),
+    ]);
+
+    return {
+      orders,
+      deadLetter,
+    };
+  }
+
   async onModuleDestroy() {
     await this.ordersQueue.close();
+    await this.deadLetterQueue.close();
   }
 }
