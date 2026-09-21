@@ -3,8 +3,8 @@ import { CreateOrder } from 'src/application/use-cases/orders/create-order';
 import { CreateOrderRequest } from './request';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('orders')
-@ApiTags('Orders')
+@Controller('webhooks/orders')
+@ApiTags('Webhooks')
 export class CreateOrderController {
   constructor(private readonly createOrder: CreateOrder) {}
 
