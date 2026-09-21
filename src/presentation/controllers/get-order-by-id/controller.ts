@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetOrderById } from 'src/application/use-cases/orders/get-order-by-id';
-import { GetOrderByIdResponse } from './response';
+import { OrderResponseDto } from 'src/presentation/dto/order-response';
 
 @Controller('orders')
 @ApiTags('Orders')
@@ -16,14 +16,14 @@ export class GetOrderByIdController {
 
   @Get(':id')
   @ApiResponse({
-    type: GetOrderByIdResponse,
+    type: OrderResponseDto,
     status: 200,
     description: 'Order found',
   })
   async handle(
     @Param('id', new ParseUUIDPipe())
     id: string,
-  ): Promise<GetOrderByIdResponse> {
+  ): Promise<OrderResponseDto> {
     const order = await this.getOrderById.execute(id);
 
     if (!order) {

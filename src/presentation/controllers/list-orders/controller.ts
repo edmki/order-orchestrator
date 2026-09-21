@@ -2,7 +2,7 @@ import { Controller, Get, ParseEnumPipe, Query } from '@nestjs/common';
 import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ListOrders } from 'src/application/use-cases/orders/list-orders';
 import { OrderStatus } from 'src/domain/enums/order-status';
-import { ListOrdersResponse } from './response';
+import { OrderResponseDto } from 'src/presentation/dto/order-response';
 
 @Controller('orders')
 @ApiTags('Orders')
@@ -16,14 +16,14 @@ export class ListOrdersController {
     enum: OrderStatus,
   })
   @ApiResponse({
-    type: [ListOrdersResponse],
+    type: [OrderResponseDto],
     status: 200,
     description: 'List of orders',
   })
   async handle(
     @Query('status', new ParseEnumPipe(OrderStatus, { optional: true }))
     status?: OrderStatus,
-  ): Promise<ListOrdersResponse[]> {
+  ): Promise<OrderResponseDto[]> {
     const orders = await this.listOrders.execute(status);
     return orders;
   }

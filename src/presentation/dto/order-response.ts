@@ -1,30 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderStatus } from 'src/domain/enums/order-status';
 
-export interface OrderCustomer {
-  email: string;
-  name: string;
-}
-
-export interface OrderItem {
-  sku: string;
-  qty: number;
-  unitPrice: number;
-}
-
-export interface Order {
-  id: string;
-  orderId: string;
-  idempotencyKey: string;
-  customer: OrderCustomer;
-  items: OrderItem[];
-  currency: string;
-  status: OrderStatus;
-  enrichmentData?: Record<string, any> | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 class CustomerResponse {
   @ApiProperty({
     description: 'Customer email',
@@ -47,7 +23,7 @@ class ItemResponse {
   unitPrice: number;
 }
 
-export class GetOrderByIdResponse {
+export class OrderResponseDto {
   @ApiProperty({
     description: 'Database ID',
     example: 'ab12cd34-56ef-78gh-90ij-klmnopqrstuv',
