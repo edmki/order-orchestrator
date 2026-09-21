@@ -15,7 +15,8 @@ export class ListOrdersController {
     enum: OrderStatus,
   })
   async handle(
-    @Query('status', new ParseEnumPipe(OrderStatus)) status?: OrderStatus,
+    @Query('status', new ParseEnumPipe(OrderStatus, { optional: true }))
+    status?: OrderStatus,
   ) {
     const orders = await this.listOrders.execute(status);
     return orders;
