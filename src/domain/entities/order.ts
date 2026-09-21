@@ -11,6 +11,14 @@ export interface OrderItem {
   unitPrice: number;
 }
 
+export interface EnrichmentData {
+  exchangeRate: {
+    from: string;
+    to: string;
+    rate: number;
+  };
+}
+
 export interface Order {
   id: string;
   orderId: string;
@@ -19,7 +27,7 @@ export interface Order {
   items: OrderItem[];
   currency: string;
   status: OrderStatus;
-  enrichmentData?: Record<string, any> | null;
+  enrichmentData?: EnrichmentData | null;
   createdAt: Date;
   updatedAt: Date;
 }

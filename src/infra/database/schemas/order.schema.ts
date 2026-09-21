@@ -1,4 +1,8 @@
-import type { OrderCustomer, OrderItem } from 'src/domain/entities/order';
+import type {
+  EnrichmentData,
+  OrderCustomer,
+  OrderItem,
+} from 'src/domain/entities/order';
 import { OrderStatus } from 'src/domain/enums/order-status';
 import {
   Column,
@@ -37,7 +41,7 @@ export class OrderSchema {
     type: 'jsonb',
     nullable: true,
   })
-  enrichmentData: Record<string, any> | null;
+  enrichmentData: EnrichmentData | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
